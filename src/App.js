@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from "react";
-import api from "./api";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
-  const [partners, setPartners] = useState([]);
-
-  useEffect(() => {
-    api.get("/partners")
-      .then(res => setPartners(res.data))
-      .catch(err => console.error("API Error:", err));
-  }, []);
-
   return (
-    <div>
-      <h1>Salon Partners</h1>
-      <ul>
-        {partners.map(partner => (
-          <li key={partner._id}>{partner.name}</li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <nav>
+        <Link to="/login">Login</Link> |{" "}
+        <Link to="/register">Register</Link>
+      </nav>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+    </Router>
   );
 }
 
