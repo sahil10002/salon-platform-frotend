@@ -5,29 +5,29 @@ import { API_BASE_URL } from "../config";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login/`, {
+      const res = await axios.post(`${API_BASE_URL}/login/`, {
         email,
         password,
       });
-      localStorage.setItem("token", response.data.token);
-      setMessage("Login successful!");
-    } catch (error) {
-      setMessage("Login failed.");
+      alert("Login successful!");
+      console.log(res.data); // You can store token here
+    } catch (err) {
+      alert("Login failed!");
+      console.error(err);
     }
   };
 
   return (
-    <div>
+    <form onSubmit={handleLogin}>
       <h2>Login</h2>
-      <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} /><br />
-      <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} /><br />
-      <button onClick={handleLogin}>Login</button>
-      <p>{message}</p>
-    </div>
+      <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+      <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
+      <button type="submit">Login</button>
+    </form>
   );
 }
 
