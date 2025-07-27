@@ -12,7 +12,6 @@ function LoginPage() {
       const res = await axios.post(`${API_BASE_URL}/login`, { email, password });
       localStorage.setItem("token", res.data.token);
       alert("Login successful!");
-      // Redirect to dashboard or home
     } catch (err) {
       alert("Login failed: " + err.response?.data?.message || err.message);
     }
