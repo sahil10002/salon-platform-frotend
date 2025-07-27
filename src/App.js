@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import api from "./api";
 
 function App() {
+  const [partners, setPartners] = useState([]);
+
+  useEffect(() => {
+    api.get("/partners")
+      .then(res => setPartners(res.data))
+      .catch(err => console.error("API Error:", err));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Salon Partners</h1>
+      <ul>
+        {partners.map(partner => (
+          <li key={partner._id}>{partner.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
