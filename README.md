@@ -1,1 +1,1 @@
-# salon-platform-frotend
+# salon-platform-frontend
