@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../config";
 
 function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "customer", // default
+  });
 
-  const handleRegister = async (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/register/`, {
-        email,
-        password,
-      });
-      alert("Registration successful!");
+      await axios.post("http://localhost:3000/api/register", formData);
+      alert("Registered successfully!");
     } catch (err) {
       alert("Registration failed!");
-      console.error(err);
     }
   };
 
   return (
-    <form onSubmit={handleRegister}>
+    <form onSubmit={handleSubmit}>
       <h2>Register</h2>
-      <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-      <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
+      <input name="name" placeholder="Name" onChange={handleChange} />
+      <input name="email" placeholder="Email" onChange={handleChange} />
+      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
+      <select name="role" onChange={handleChange}>
+        <option value="customer">Customer</option>
+        <option value="partner">Partner</option>
+        <option value="admin">Admin</option>
+      </select>
       <button type="submit">Register</button>
     </form>
   );
