@@ -1,31 +1,31 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../config";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = async (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_BASE_URL}/login/`, {
-        email,
-        password,
-      });
-      alert("Login successful!");
-      console.log(res.data); // You can store token here
+      const res = await axios.post("http://localhost:3000/api/login", formData);
+      alert("Login successful! Welcome " + res.data.user.name);
     } catch (err) {
       alert("Login failed!");
-      console.error(err);
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleSubmit}>
       <h2>Login</h2>
-      <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-      <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
+      <input name="email" placeholder="Email" onChange={handleChange} />
+      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
       <button type="submit">Login</button>
     </form>
   );
