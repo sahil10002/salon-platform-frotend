@@ -1,5 +1,5 @@
 
-# salon-platform-frotend
+# salon-platform-frontend
 =======
 # Getting Started with Create React App
 
