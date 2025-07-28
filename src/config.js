@@ -1,2 +1,2 @@
-const API_BASE_URL = "https://salon-backend-8u5u.onrender.com";
+const API_BASE_URL = "http://192.168.1.100:3000"; // 🔁 Replace with your actual IP
 export default API_BASE_URL;
