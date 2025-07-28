@@ -1,42 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function RegisterPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "customer", // default
-  });
+export default function RegisterPage() {
+  const [form, setForm] = useState({ name: "", email: "", password: "", role: "customer" });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:3000/api/register", formData);
-      alert("Registered successfully!");
-    } catch (err) {
-      alert("Registration failed!");
-    }
+  const register = async () => {
+    await axios.post("http://localhost:3000/api/auth/register", form);
+    alert("Registered");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <h2>Register</h2>
-      <input name="name" placeholder="Name" onChange={handleChange} />
-      <input name="email" placeholder="Email" onChange={handleChange} />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
-      <select name="role" onChange={handleChange}>
+      <input placeholder="Name" onChange={e => setForm({ ...form, name: e.target.value })} />
+      <input placeholder="Email" onChange={e => setForm({ ...form, email: e.target.value })} />
+      <input placeholder="Password" type="password" onChange={e => setForm({ ...form, password: e.target.value })} />
+      <select onChange={e => setForm({ ...form, role: e.target.value })}>
         <option value="customer">Customer</option>
         <option value="partner">Partner</option>
-        <option value="admin">Admin</option>
       </select>
-      <button type="submit">Register</button>
-    </form>
+      <button onClick={register}>Register</button>
+    </div>
   );
 }
-
-export default RegisterPage;
